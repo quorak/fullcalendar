@@ -187,6 +187,8 @@ function isDateSelectionPropsValid(state: SplittableProps, calendar: Calendar, d
 
   let overlapFunc = calendar.opt('selectOverlap')
   if (typeof overlapFunc !== 'function') { overlapFunc = null }
+  
+  let fullDateSpan = { ...dateSpanMeta, ...selection }
 
   for (let relevantInstanceId in relevantInstances) {
     let relevantInstance = relevantInstances[relevantInstanceId]
@@ -199,7 +201,8 @@ function isDateSelectionPropsValid(state: SplittableProps, calendar: Calendar, d
       }
 
       if (overlapFunc && !overlapFunc(
-        new EventApi(calendar, relevantDefs[relevantInstance.defId], relevantInstance)
+        new EventApi(calendar, relevantDefs[relevantInstance.defId], relevantInstance),
+        selection
       )) {
         return false
       }
